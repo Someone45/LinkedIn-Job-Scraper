@@ -1,0 +1,33 @@
+103644278
+
+https://www.linkedin.com/jobs/search/        #MainPage
+
+followed by 
+
+?f_JT=I  #Tells what type of job
+
+followed by
+
+f_PP=102571732                              #Location of New York, NY
+
+& keywords=Software%20Engineer              #NameOfJob
+
+followed by 
+
+&location=United%20States                   #Location
+
+followed by 
+
+&sortBy=DD                                  #To sort  by date 
+
+
+followed by 
+
+&start=25                                   #to sort through pages until 775 or 975 (need to find out a way to determine the max number) 
+
+
+https://www.linkedin.com/jobs/search/?keywords=software%20engineer&location=United%20States&sortBy=DD
+
+
+
+
