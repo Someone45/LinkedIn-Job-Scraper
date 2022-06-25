@@ -1,7 +1,6 @@
 from asyncore import close_all
 from ftplib import all_errors
 from socket import timeout
-import click
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -9,8 +8,11 @@ from bs4 import BeautifulSoup
 from selenium.webdriver.support import expected_conditions as EC
 import time
 import pandas as pd
-import json
-from tabulate import tabulate
+
+#options = webdriver.ChromeOptions()
+
+# Uncomment the line below if you'd like to scrape without a new Chrome window every time.
+#options.add_argument('headless')
 
 driver = webdriver.Chrome()
 driver.maximize_window() 
@@ -42,7 +44,7 @@ Sort = "&sortBy=DD"                            #Sort by date (Can change this)
 PageNumber = f"&start="                        #The job that is being viewed
 
 #Data Scraping
-n = 3 
+n = 5 
 while n > 0:
     driver.get(f"https://www.linkedin.com/jobs/search/{JobType}{City}{JobName}{Country}{Sort}{PageNumber}{JNumber}")
     job_src = driver.page_source
@@ -54,7 +56,7 @@ while n > 0:
 
     #Find Job Title
 
-
+    time.sleep(1.5)
     job_title = soup.find_all('h2', {'class': 't-24 t-bold jobs-unified-top-card__job-title'})
     job_titles = []
     for title in job_title:
@@ -65,7 +67,6 @@ while n > 0:
     # f.close()
     #Find Job Description
     job_description = driver.find_element(By.XPATH, "//*[@id='job-details']").text
-    timeout(1)
     # print(job_description)
     # f = open("jobdesc.txt", "a")
     # f.write(job_description + "\n @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ \n @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
@@ -78,9 +79,10 @@ while n > 0:
 # Converts the dataframe into str object with formatting
 
 df = pd.DataFrame(jobs)
-df.to_html("Table.htm", index=False)
-html_gile = df.to_html
-# df.to_csv("datafile.csv", index=False)
+# df.to_html("Table.htm", index=False)
+# html_gile = df.to_html
+
+df.to_csv("datafile.csv", index=False)
 
 #apply_click = driver.find_element(By.XPATH,"//button[@class='jobs-apply-button artdeco-button artdeco-button--icon-right artdeco-button--3 artdeco-button--primary ember-view']").click()
 
