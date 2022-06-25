@@ -1,0 +1,14 @@
+#Job Name & Location
+'''
+job_search = driver.find_element(By.XPATH, "//input[@class='jobs-search-box__text-input jobs-search-box__keyboard-text-input']")
+job_search.send_keys("Software Engineering")
+location = driver.find_element(By.XPATH, "//inputp[@class = '']")
+'''
+
+'''
+search_bar = driver.find_element(By.ID,"jobs-search-box-keyword-id-ember200")
+search_bar.send_keys("Software Engineering")
+time.sleep(2) 
+#search_bar.send_keys(Keys.ENTER)
+'''
+
