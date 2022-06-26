@@ -45,7 +45,7 @@ Sort = "&sortBy=DD"                            #Sort by date (Can change this)
 PageNumber = f"&start="                        #The job that is being viewed
 
 #Data Scraping
-n = 2
+n = 10
 while n > 0:
     driver.get(f"https://www.linkedin.com/jobs/search/{JobType}{City}{JobName}{Country}{Sort}{PageNumber}{JNumber}")
     job_src = driver.page_source
@@ -69,29 +69,33 @@ while n > 0:
 
             #Get Application Link
             try:
-                WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH,"//span[text()[normalize-space()='Apply']]"))).click()
+                driver.find_element(By.XPATH, "//span[text()[normalize-space()='Easy Apply']]")
+                url = driver.current_url
             except NoSuchElementException:
-                pass
-            time.sleep(2)
-            try:
-                close_prompt = WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//button[@class = 'artdeco-modal__dismiss artdeco-button artdeco-button--circle artdeco-button--muted artdeco-button--2 artdeco-button--tertiary ember-view']")))
-                close_prompt.click()
-                time.sleep(1)
-            except Exception as e:
-                pass
-            time.sleep(3)
-            try:
-                WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH,"//span[text()[normalize-space()='Apply']]"))).click()
-            except NoSuchElementException:
-                pass
-            time.sleep(5)
-            window_before= driver.window_handles[0]
-            window_after = driver.window_handles[1]
-            driver.switch_to.window(window_after)
-            url = driver.current_url
-            url = f"<a href={url}>Application Here</a>"
-            driver.close()
-            driver.switch_to.window(window_before)
+                try:
+                    WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH,"//span[text()[normalize-space()='Apply']]"))).click()
+                except NoSuchElementException:
+                    pass
+                time.sleep(2)
+                try:
+                    close_prompt = WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//button[@class = 'artdeco-modal__dismiss artdeco-button artdeco-button--circle artdeco-button--muted artdeco-button--2 artdeco-button--tertiary ember-view']")))
+                    close_prompt.click()
+                    time.sleep(1)
+                except Exception as e:
+                    pass
+                time.sleep(3)
+                try:
+                    WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH,"//span[text()[normalize-space()='Apply']]"))).click()
+                except NoSuchElementException:
+                    pass
+                time.sleep(5)
+                window_before= driver.window_handles[0]
+                window_after = driver.window_handles[1]
+                driver.switch_to.window(window_after)
+                url = driver.current_url
+                url = f"<a href={url}>Application Here</a>"
+                driver.close()
+                driver.switch_to.window(window_before)
 
             sucess = True
         except:
