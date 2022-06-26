@@ -66,8 +66,13 @@ while n > 0:
         WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH,"//span[text()[normalize-space()='Apply']]"))).click()
     except NoSuchElementException:
         pass
-    time.sleep(5)
+    time.sleep(10)
+    window_before= driver.window_handles[0]
+    window_after = driver.window_handles[1]
+    driver.switch_to.window(window_after)
     url = driver.current_url
+    driver.close()
+    driver.switch_to.window(window_before)
     n-= 1
 print(url)
 time.sleep(1000)
