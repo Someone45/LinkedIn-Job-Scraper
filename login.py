@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 from selenium.webdriver.support import expected_conditions as EC
 import time
 import pandas as pd
+from selenium.common.exceptions import NoSuchElementException
 
 #options = webdriver.ChromeOptions()
 
@@ -44,7 +45,7 @@ Sort = "&sortBy=DD"                            #Sort by date (Can change this)
 PageNumber = f"&start="                        #The job that is being viewed
 
 #Data Scraping
-n = 3 
+n = 2
 while n > 0:
     driver.get(f"https://www.linkedin.com/jobs/search/{JobType}{City}{JobName}{Country}{Sort}{PageNumber}{JNumber}")
     job_src = driver.page_source
@@ -66,6 +67,32 @@ while n > 0:
             #Find Company Name
             company_name = driver.find_element(By.XPATH, "//a[@class='ember-view t-black t-normal']").text.replace("\n", "<br>" )
 
+            #Get Application Link
+            try:
+                WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH,"//span[text()[normalize-space()='Apply']]"))).click()
+            except NoSuchElementException:
+                pass
+            time.sleep(2)
+            try:
+                close_prompt = WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//button[@class = 'artdeco-modal__dismiss artdeco-button artdeco-button--circle artdeco-button--muted artdeco-button--2 artdeco-button--tertiary ember-view']")))
+                close_prompt.click()
+                time.sleep(1)
+            except Exception as e:
+                pass
+            time.sleep(3)
+            try:
+                WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH,"//span[text()[normalize-space()='Apply']]"))).click()
+            except NoSuchElementException:
+                pass
+            time.sleep(5)
+            window_before= driver.window_handles[0]
+            window_after = driver.window_handles[1]
+            driver.switch_to.window(window_after)
+            url = driver.current_url
+            url = f"<a href={url}>Application Here</a>"
+            driver.close()
+            driver.switch_to.window(window_before)
+
             sucess = True
         except:
             time.sleep(5)
@@ -73,7 +100,7 @@ while n > 0:
     #Obtain Company Link
     
 
-    jobs.append({"Company Name": company_name,"Job Title": job_title, "Job Description": job_description, "Date Posted": date_posted})
+    jobs.append({"Company Name": company_name,"Job Title": job_title, "Application Link": url, "Job Description": job_description, "Date Posted": date_posted})
     n -= 1
     time.sleep(1)
 
@@ -84,7 +111,7 @@ df = pd.DataFrame(jobs)
 df.to_html("Table.html", index=False, escape = False)
 html_file = df.to_html
 
-print(type(job_title))
+print("SUCCESS")
 
 #apply_click = driver.find_element(By.XPATH,"//button[@class='jobs-apply-button artdeco-button artdeco-button--icon-right artdeco-button--3 artdeco-button--primary ember-view']").click()
 
