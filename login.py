@@ -6,15 +6,17 @@ from selenium.webdriver.support.ui import WebDriverWait
 from bs4 import BeautifulSoup
 from selenium.webdriver.support import expected_conditions as EC
 import time
+import json
 import pandas as pd
 from selenium.common.exceptions import NoSuchElementException
 
-#options = webdriver.ChromeOptions()
-
 # Uncomment the line below if you'd like to scrape without a new Chrome window every time.
-#options.add_argument('headless')
+
 def linkedin_main(JobName, n):
+    # options = webdriver.ChromeOptions()
+    # options.add_argument('headless')
     driver = webdriver.Chrome()
+    # driver = webdriver.Chrome(options=options)
     driver.maximize_window() 
     driver.get("https://linkedin.com/login")
     wait = WebDriverWait(driver, 5)
@@ -33,6 +35,7 @@ def linkedin_main(JobName, n):
 
     #Clicks Login Button
     driver.find_element(By.XPATH,"//button[@type='submit']").click()
+    time.sleep(3)
 
     #Finds Job Page & Begins Search
     JNumber = 0                                    #Increases by 1 to change to the next job
@@ -53,7 +56,7 @@ def linkedin_main(JobName, n):
         JNumber += 1
         time.sleep(1.5)
         sucess = False
-        while sucess == False:
+        while sucess is False:
             try:
                 #Find Job Title
                 job_title = driver.find_element(By.XPATH, "//h2[@class='t-24 t-bold jobs-unified-top-card__job-title']").text.replace("\n", "<br>" )
@@ -102,7 +105,7 @@ def linkedin_main(JobName, n):
         job_descc = []
         job_descc.append({"Desc": job_description})
         job_linked = f"<a href='jobdesc{job_number}.html' target='_blank'> Job Description Here </a>"
-        jobs.append({"Company Name": company_name,"Job Title": job_title, "Job Link": url, "Job Description": job_linked, "Date Posted": date_posted})
+        jobs.append({"CompanyName": company_name,"JobTitle": job_title, "JobLink": url, "JobDescription": job_linked, "DatePosted": date_posted})
         n -= 1
         time.sleep(1)
 
@@ -112,12 +115,14 @@ def linkedin_main(JobName, n):
         html_file = dfdesc.to_html
         job_number += 1
 
+        print(f"Jobs Completed ({job_number}/{n})")
+
     # Converts the dataframe into str object with formatting
     df = pd.DataFrame(jobs)
 
     #Exports data as HTML
-    df.to_html("Table.html", index=False, escape = False)
-    html_file = df.to_html
+    df.to_json("Table.json", orient = 'records', indent = 2)
 
     print("SUCCESS")
 
+linkedin_main("Publishing", 3)
