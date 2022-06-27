@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 from selenium.webdriver.support import expected_conditions as EC
 import time
 import json
+import os
 import pandas as pd
 from selenium.common.exceptions import NoSuchElementException
 
@@ -104,15 +105,16 @@ def linkedin_main(JobName, n):
         #Obtain Company Link
         job_descc = []
         job_descc.append({"Desc": job_description})
-        job_linked = f"<a href='jobdesc{job_number}.html' target='_blank'> Job Description Here </a>"
+        job_linked = f"<a href=' {os.path.dirname(__file__)}/desc/jobdesc{job_number}.html' target='_blank'> Job Description Here </a>"
         jobs.append({"CompanyName": company_name,"JobTitle": job_title, "JobLink": url, "JobDescription": job_linked, "DatePosted": date_posted})
         n -= 1
         time.sleep(1)
 
         #Export Job Descriptions
+        # with open(f"{os.path.dirname(__file__)}/desc/jobdesc{job_number}.html") as f:
+        #     f.write(job_descc)
         dfdesc = pd.DataFrame(job_descc)
-        dfdesc.to_html(f"jobdesc{job_number}.html", index=False, escape = False)
-        html_file = dfdesc.to_html
+        dfdesc.to_html(f"{os.path.dirname(__file__)}/desc/jobdesc{job_number}.html", index=False, escape = False)
         job_number += 1
 
         print(f"Jobs Completed ({job_number}/{n})")
@@ -121,7 +123,8 @@ def linkedin_main(JobName, n):
     df = pd.DataFrame(jobs)
 
     #Exports data as HTML
-    df.to_json("Table.json", orient = 'records', indent = 2)
+    df.to_html("Table.html", index=False, escape = False)
+
 
     print("SUCCESS")
 
@@ -134,10 +137,12 @@ def htmlformatter():
         filedata = file.read()
 
     # Replace the target string
-        filedata = filedata.replace('<table>', replacer)
+        filedata = filedata.replace('<table border="1" class="dataframe">', replacer)
 
     # Write the file out again
     with open('Table.html', 'w') as file:
         file.write(filedata)
 
-linkedin_main("Publishing", 3)
+linkedin_main("Publishing", 1)
+htmlformatter()
+

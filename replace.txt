@@ -19,22 +19,3 @@
   </body>
 </html>
 <table class="table table-striped table-bordered table table-hover table-condense">
-  <thead>
-    <tr style="text-align: right;">
-      <th>CompanyName</th>
-      <th>JobTitle</th>
-      <th>JobLink</th>
-      <th>JobDescription</th>
-      <th>DatePosted</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Penguin Random House</td>
-      <td>Associate National Accounts Manager</td>
-      <td><a href=https://jobsearch.createyourowncareer.com/PRH_US/job/New-York-Associate-National-Accounts-Manager-NY-10019/821805401/ target='_blank'> Link </a></td>
-      <td><a href=' c:\Users\Adriel\Documents\PY\Scraper/desc/jobdesc0.html' target='_blank'> Job Description Here </a></td>
-      <td>2 days ago</td>
-    </tr>
-  </tbody>
-</table>
