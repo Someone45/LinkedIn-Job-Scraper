@@ -1,4 +1,4 @@
-# Scraper
+# LinkedIn Scraper
 
 To begin using this script, you will need to install all of the modules found in "LinkedIn_Scraper"
 
