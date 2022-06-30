@@ -129,6 +129,8 @@ def linkedin_main(JobName, n):
     print("SUCCESS")
 
 def htmlformatter():
+    
+    # Read in the file
     with open('replace.txt', 'r') as file:
         replacer = file.read()
 
@@ -142,7 +144,4 @@ def htmlformatter():
     # Write the file out again
     with open('Table.html', 'w') as file:
         file.write(filedata)
-
-linkedin_main("Publishing", 1)
-htmlformatter()
 
