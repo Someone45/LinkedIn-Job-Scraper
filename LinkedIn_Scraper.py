@@ -28,11 +28,11 @@ def linkedin_main(JobName, n):
 
     #Logs in with username
     username = driver.find_element(By.ID, "username")
-    username.send_keys("clashingminis1@gmail.com")
+    username.send_keys("Insert your email")
 
     #Logs in with password 
     password = driver.find_element(By.ID,"password")
-    password.send_keys("8Kbyf9g]V8nH7PdU")
+    password.send_keys("Insert your password")
 
     #Clicks Login Button
     driver.find_element(By.XPATH,"//button[@type='submit']").click()
