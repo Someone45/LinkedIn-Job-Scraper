@@ -11,9 +11,9 @@ import os
 import pandas as pd
 from selenium.common.exceptions import NoSuchElementException
 
-# Uncomment the line below if you'd like to scrape without a new Chrome window every time.
 
 def linkedin_main(JobName, n):
+    # Uncomment the line below if you'd like to scrape without a new Chrome window every time.
     # options = webdriver.ChromeOptions()
     # options.add_argument('headless')
     driver = webdriver.Chrome()
